@@ -11,7 +11,7 @@ defmodule AdventOfCode.Y2022.Day03Test do
   end
 
   test "part2" do
-    input =  AdventOfCode.Input.get!(3, 2022)
+    input = AdventOfCode.Input.get!(3, 2022)
     result = part2(input)
 
     assert result == 2681

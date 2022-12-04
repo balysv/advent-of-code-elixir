@@ -1,6 +1,7 @@
 defmodule AdventOfCode.Y2016.Day17 do
   def part1(args) do
     passcode = args |> String.trim()
+
     dfs({"", 0, 0}, passcode, "", String.duplicate("U", 100), &Kernel.</2)
     |> List.flatten()
     |> Enum.min_by(&String.length/1)
@@ -24,6 +25,7 @@ defmodule AdventOfCode.Y2016.Day17 do
       min_path
     else
       moves = available_moves(c, passcode, path)
+
       r =
         for move = {d, _, _} <- moves do
           dfs(move, passcode, path <> d, min_path, op)

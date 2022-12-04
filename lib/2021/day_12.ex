@@ -6,8 +6,8 @@ defmodule AdventOfCode.Y2021.Day12 do
       [a, b] = String.split(nodes, "-")
 
       acc
-      |> Map.update(a, [b], &([b | &1]))
-      |> Map.update(b, [a], &([a | &1]))
+      |> Map.update(a, [b], &[b | &1])
+      |> Map.update(b, [a], &[a | &1])
     end)
   end
 

@@ -6,7 +6,7 @@ defmodule AdventOfCode.Y2015.Day20Test do
   @tag :skip
   @tag timeout: :infinity
   test "part1" do
-    input = 34000000
+    input = 34_000_000
     result = part1(input)
 
     assert result == 12
@@ -15,7 +15,7 @@ defmodule AdventOfCode.Y2015.Day20Test do
   @tag :skip
   @tag timeout: :infinity
   test "part2" do
-    input = 34000000
+    input = 34_000_000
     result = part2(input)
 
     assert result == 12

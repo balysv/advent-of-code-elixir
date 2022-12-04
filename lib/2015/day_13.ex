@@ -37,23 +37,25 @@ defmodule AdventOfCode.Y2015.Day13 do
     |> permutations()
     |> Enum.map(fn
       seating ->
-        r = all_pairs(seating)
-        |> Enum.reduce(0, fn
-          {l, r}, acc ->
-            right =
-              case Map.get(input, {l, r}) do
-                {:gain, value} -> value
-                {:lose, value} -> -value
-              end
+        r =
+          all_pairs(seating)
+          |> Enum.reduce(0, fn
+            {l, r}, acc ->
+              right =
+                case Map.get(input, {l, r}) do
+                  {:gain, value} -> value
+                  {:lose, value} -> -value
+                end
 
-            left =
-              case Map.get(input, {r, l}) do
-                {:gain, value} -> value
-                {:lose, value} -> -value
-              end
+              left =
+                case Map.get(input, {r, l}) do
+                  {:gain, value} -> value
+                  {:lose, value} -> -value
+                end
 
-            acc + right + left
-        end)
+              acc + right + left
+          end)
+
         {seating, r}
     end)
     |> Enum.max_by(&elem(&1, 1))

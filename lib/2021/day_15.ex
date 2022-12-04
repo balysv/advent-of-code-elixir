@@ -53,6 +53,7 @@ defmodule AdventOfCode.Y2021.Day15 do
 
   defp solve(graph) do
     {start, destination} = Enum.min_max(Graph.vertices(graph))
+
     Graph.Pathfinding.dijkstra(graph, start, destination)
     |> Enum.chunk_every(2, 1, :discard)
     |> Enum.reduce(0, fn [v1, v2], acc ->

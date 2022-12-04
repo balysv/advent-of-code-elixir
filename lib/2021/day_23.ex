@@ -1,6 +1,7 @@
 defmodule AdventOfCode.Y2021.Day23 do
   use Memoize
-  @depth 2 # part 1
+  # part 1
+  @depth 2
   # @depth 4 # part 2
 
   def part1(args) do
@@ -9,7 +10,6 @@ defmodule AdventOfCode.Y2021.Day23 do
   end
 
   defp recur(hallway, rooms, cost, min_cost) do
-
     if is_end(rooms) do
       n = if cost < min_cost, do: cost, else: min_cost
       IO.inspect(n)
@@ -87,9 +87,22 @@ defmodule AdventOfCode.Y2021.Day23 do
       m = if l1 == 0, do: [update_state(hallway, 1, r, 2, cost) | m], else: m
       m = if p1 == 0, do: [update_state(hallway, 3, r, 2, cost) | m], else: m
       m = if p1 == 0 and p2 == 0, do: [update_state(hallway, 5, r, 4, cost) | m], else: m
-      m = if p1 == 0 and p2 == 0 and p3 == 0, do: [update_state(hallway, 7, r, 6, cost) | m], else: m
-      m = if p1 == 0 and p2 == 0 and p3 == 0 and rh1 == 0, do: [update_state(hallway, 9, r, 8, cost) | m], else: m
-      m = if p1 == 0 and p2 == 0 and p3 == 0 and rh1 == 0 and rh2 == 0, do: [update_state(hallway, 10, r, 9, cost) | m], else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and p3 == 0,
+          do: [update_state(hallway, 7, r, 6, cost) | m],
+          else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and p3 == 0 and rh1 == 0,
+          do: [update_state(hallway, 9, r, 8, cost) | m],
+          else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and p3 == 0 and rh1 == 0 and rh2 == 0,
+          do: [update_state(hallway, 10, r, 9, cost) | m],
+          else: m
+
       m
     else
       []
@@ -99,13 +112,27 @@ defmodule AdventOfCode.Y2021.Day23 do
   defp moves_from_room(hallway = [l2, l1, _, p1, _, p2, _, p3, _, rh1, rh2], {r, 1}, cost) do
     if Enum.any?(r, fn i -> i != 10 end) do
       m = []
-      m = if p1 == 0 and l1 == 0 and l2 == 0, do: [update_state(hallway, 0, r, 5, cost) | m], else: m
+
+      m =
+        if p1 == 0 and l1 == 0 and l2 == 0,
+          do: [update_state(hallway, 0, r, 5, cost) | m],
+          else: m
+
       m = if p1 == 0 and l1 == 0, do: [update_state(hallway, 1, r, 4, cost) | m], else: m
       m = if p1 == 0, do: [update_state(hallway, 3, r, 2, cost) | m], else: m
       m = if p2 == 0, do: [update_state(hallway, 5, r, 2, cost) | m], else: m
       m = if p2 == 0 and p3 == 0, do: [update_state(hallway, 7, r, 4, cost) | m], else: m
-      m = if p2 == 0 and p3 == 0 and rh1 == 0, do: [update_state(hallway, 9, r, 6, cost) | m], else: m
-      m = if p2 == 0 and p3 == 0 and rh1 == 0 and rh2 == 0, do: [update_state(hallway, 10, r, 7, cost) | m], else: m
+
+      m =
+        if p2 == 0 and p3 == 0 and rh1 == 0,
+          do: [update_state(hallway, 9, r, 6, cost) | m],
+          else: m
+
+      m =
+        if p2 == 0 and p3 == 0 and rh1 == 0 and rh2 == 0,
+          do: [update_state(hallway, 10, r, 7, cost) | m],
+          else: m
+
       m
     else
       []
@@ -115,13 +142,27 @@ defmodule AdventOfCode.Y2021.Day23 do
   defp moves_from_room(hallway = [l2, l1, _, p1, _, p2, _, p3, _, rh1, rh2], {r, 2}, cost) do
     if Enum.any?(r, fn i -> i != 100 end) do
       m = []
-      m = if p1 == 0 and p2 == 0 and l1 == 0 and l2 == 0, do: [update_state(hallway, 0, r, 7, cost) | m], else: m
-      m = if p1 == 0 and p2 == 0 and l1 == 0, do: [update_state(hallway, 1, r, 6, cost) | m], else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and l1 == 0 and l2 == 0,
+          do: [update_state(hallway, 0, r, 7, cost) | m],
+          else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and l1 == 0,
+          do: [update_state(hallway, 1, r, 6, cost) | m],
+          else: m
+
       m = if p1 == 0 and p2 == 0, do: [update_state(hallway, 3, r, 4, cost) | m], else: m
       m = if p2 == 0, do: [update_state(hallway, 5, r, 2, cost) | m], else: m
       m = if p3 == 0, do: [update_state(hallway, 7, r, 2, cost) | m], else: m
       m = if p3 == 0 and rh1 == 0, do: [update_state(hallway, 9, r, 4, cost) | m], else: m
-      m = if p3 == 0 and rh1 == 0 and rh2 == 0, do: [update_state(hallway, 10, r, 5, cost) | m], else: m
+
+      m =
+        if p3 == 0 and rh1 == 0 and rh2 == 0,
+          do: [update_state(hallway, 10, r, 5, cost) | m],
+          else: m
+
       m
     else
       []
@@ -131,9 +172,22 @@ defmodule AdventOfCode.Y2021.Day23 do
   defp moves_from_room(hallway = [l2, l1, _, p1, _, p2, _, p3, _, rh1, rh2], {r, 3}, cost) do
     if Enum.any?(r, fn i -> i != 1000 end) do
       m = []
-      m = if p1 == 0 and p2 == 0 and p3 == 0 and l1 == 0 and l2 == 0, do: [update_state(hallway, 0, r, 9, cost) | m], else: m
-      m = if p1 == 0 and p2 == 0 and p3 == 0 and l1 == 0, do: [update_state(hallway, 1, r, 8, cost) | m], else: m
-      m = if p1 == 0 and p2 == 0 and p3 == 0, do: [update_state(hallway, 3, r, 6, cost) | m], else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and p3 == 0 and l1 == 0 and l2 == 0,
+          do: [update_state(hallway, 0, r, 9, cost) | m],
+          else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and p3 == 0 and l1 == 0,
+          do: [update_state(hallway, 1, r, 8, cost) | m],
+          else: m
+
+      m =
+        if p1 == 0 and p2 == 0 and p3 == 0,
+          do: [update_state(hallway, 3, r, 6, cost) | m],
+          else: m
+
       m = if p2 == 0 and p3 == 0, do: [update_state(hallway, 5, r, 4, cost) | m], else: m
       m = if p3 == 0, do: [update_state(hallway, 7, r, 2, cost) | m], else: m
       m = if rh1 == 0, do: [update_state(hallway, 9, r, 2, cost) | m], else: m
@@ -161,49 +215,46 @@ defmodule AdventOfCode.Y2021.Day23 do
 
   defp can_go_home({1, idx}, [_, l1, _, p1, _, p2, _, p3, _, rh1, _], [r, _, _, _]) do
     can_go_to_room(1, r) and
-    ((idx == 0 and l1 == 0)
-    or (idx == 1)
-    or (idx == 3)
-    or (idx == 5 and p1 == 0)
-    or (idx == 7 and p1 == 0 and p2 == 0)
-    or (idx == 9 and p1 == 0 and p2 == 0 and p3 == 0)
-    or (idx == 10 and p1 == 0 and p2 == 0 and p3 == 0 and rh1 == 0))
+      ((idx == 0 and l1 == 0) or
+         idx == 1 or
+         idx == 3 or
+         (idx == 5 and p1 == 0) or
+         (idx == 7 and p1 == 0 and p2 == 0) or
+         (idx == 9 and p1 == 0 and p2 == 0 and p3 == 0) or
+         (idx == 10 and p1 == 0 and p2 == 0 and p3 == 0 and rh1 == 0))
   end
-
-
 
   defp can_go_home({10, idx}, [_, l1, _, p1, _, p2, _, p3, _, rh1, _], [_, r, _, _]) do
     can_go_to_room(10, r) and
-    ((idx == 0 and l1 == 0 and p1 == 0)
-    or (idx == 1 and p1 == 0)
-    or (idx == 3)
-    or (idx == 5)
-    or (idx == 7 and p2 == 0)
-    or (idx == 9 and p2 == 0 and p3 == 0)
-    or (idx == 10 and p2 == 0 and p3 == 0 and rh1 == 0))
+      ((idx == 0 and l1 == 0 and p1 == 0) or
+         (idx == 1 and p1 == 0) or
+         idx == 3 or
+         idx == 5 or
+         (idx == 7 and p2 == 0) or
+         (idx == 9 and p2 == 0 and p3 == 0) or
+         (idx == 10 and p2 == 0 and p3 == 0 and rh1 == 0))
   end
-
 
   defp can_go_home({100, idx}, [_, l1, _, p1, _, p2, _, p3, _, rh1, _], [_, _, r, _]) do
     can_go_to_room(100, r) and
-    ((idx == 0 and l1 == 0 and p1 == 0 and p2 == 0)
-    or (idx == 1 and p1 == 0 and p2 == 0)
-    or (idx == 3 and p2 == 0)
-    or (idx == 5)
-    or (idx == 7)
-    or (idx == 9 and  p3 == 0)
-    or (idx == 10 and p3 == 0 and rh1 == 0))
+      ((idx == 0 and l1 == 0 and p1 == 0 and p2 == 0) or
+         (idx == 1 and p1 == 0 and p2 == 0) or
+         (idx == 3 and p2 == 0) or
+         idx == 5 or
+         idx == 7 or
+         (idx == 9 and p3 == 0) or
+         (idx == 10 and p3 == 0 and rh1 == 0))
   end
 
   defp can_go_home({1000, idx}, [_, l1, _, p1, _, p2, _, p3, _, rh1, _], [_, _, _, r]) do
     can_go_to_room(1000, r) and
-    ((idx == 0 and l1 == 0 and p1 == 0 and p2 == 0 and p3 == 0)
-    or (idx == 1 and p1 == 0 and p2 == 0 and p3 == 0)
-    or (idx == 3 and p2 == 0 and p3 == 0)
-    or (idx == 5 and p3 == 0)
-    or (idx == 7)
-    or (idx == 9)
-    or (idx == 10 and rh1 == 0))
+      ((idx == 0 and l1 == 0 and p1 == 0 and p2 == 0 and p3 == 0) or
+         (idx == 1 and p1 == 0 and p2 == 0 and p3 == 0) or
+         (idx == 3 and p2 == 0 and p3 == 0) or
+         (idx == 5 and p3 == 0) or
+         idx == 7 or
+         idx == 9 or
+         (idx == 10 and rh1 == 0))
   end
 
   defp can_go_to_room(s, room) do

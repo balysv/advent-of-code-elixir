@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Y2021.Day06 do
-
   defp prepare_input(raw_input) do
     raw_input
     |> String.trim("\n")
@@ -24,6 +23,7 @@ defmodule AdventOfCode.Y2021.Day06 do
   end
 
   defp recur(fishes, 0), do: fishes
+
   defp recur(fishes, days) do
     fishes
     |> Enum.reduce(%{}, &update_fishes/2)

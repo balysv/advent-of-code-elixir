@@ -61,13 +61,15 @@ defmodule AdventOfCode.Y2021.Day25 do
     t = ""
     {{max_x, _}, _} = Enum.max_by(grid, &elem(&1, 0))
 
-    r = for {{x, _}, v} <-
-          grid |> Enum.sort_by(fn {{x, _}, _} -> x end) |> Enum.sort_by(fn {{_, y}, _} -> y end) do
-      t = t <> v
-      if x == max_x, do: t <> "\n", else: t
-    end
-    IEx.Helpers.clear
+    r =
+      for {{x, _}, v} <-
+            grid |> Enum.sort_by(fn {{x, _}, _} -> x end) |> Enum.sort_by(fn {{_, y}, _} -> y end) do
+        t = t <> v
+        if x == max_x, do: t <> "\n", else: t
+      end
+
+    IEx.Helpers.clear()
     IO.write(r)
-    :timer.sleep(25);
+    :timer.sleep(25)
   end
 end

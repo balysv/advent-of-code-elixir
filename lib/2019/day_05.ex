@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Y2019.Day05 do
-
   def part1(args) do
   end
 

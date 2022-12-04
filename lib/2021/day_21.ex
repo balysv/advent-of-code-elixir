@@ -8,7 +8,6 @@ defmodule AdventOfCode.Y2021.Day21 do
     |> Enum.map(&String.to_integer/1)
   end
 
-
   def part1(args) do
     [pos1, pos2] = args |> prepare_input()
 
@@ -32,6 +31,7 @@ defmodule AdventOfCode.Y2021.Day21 do
 
   defp deterministic_dice do
     die = Stream.cycle(1..100)
+
     Stream.zip([
       die |> Stream.take_every(3),
       die |> Stream.drop(1) |> Stream.take_every(3),
@@ -57,6 +57,7 @@ defmodule AdventOfCode.Y2021.Day21 do
         p = roll_position(p, roll_value)
         turn(player2, {id, p, s + p})
       end
+
     Enum.reduce(wins, {0, 0}, fn {w1, w2}, {e1, e2} -> {e1 + w1, e2 + w2} end)
   end
 

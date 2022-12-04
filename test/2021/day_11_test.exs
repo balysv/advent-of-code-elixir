@@ -36,6 +36,7 @@ defmodule AdventOfCode.Y2021.Day11Test do
     4846848554
     5283751526
     """
+
     # input = AdventOfCode.Input.get!(11, 2021)
     result = part2(input)
 

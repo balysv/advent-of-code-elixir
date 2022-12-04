@@ -133,5 +133,4 @@ defmodule AdventOfCode.Y2021.Day24 do
     reg = Map.put(reg, a, if(value, do: 1, else: 0))
     recur(rest, reg)
   end
-
 end

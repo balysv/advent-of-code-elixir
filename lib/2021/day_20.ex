@@ -61,6 +61,7 @@ defmodule AdventOfCode.Y2021.Day20 do
   defp print(grid, m) do
     {{{min_x, min_y}, _}, {{max_x, max_y}, _}} = Enum.min_max_by(grid, fn {key, _} -> key end)
     IO.puts("")
+
     for y <- (min_x - m)..(max_x + m), x <- (min_y - m)..(max_y + m) do
       IO.write(Map.get(grid, {x, y}, "."))
       if x == max_x + m, do: IO.puts("")

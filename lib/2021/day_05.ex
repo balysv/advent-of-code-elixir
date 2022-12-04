@@ -2,10 +2,13 @@ defmodule AdventOfCode.Y2021.Day05 do
   def prepare_input(raw_input) do
     raw_input
     |> String.split("\n", trim: true)
-    |> Enum.map(fn t -> String.split(t, " -> ")
-      |> Enum.map(&String.split(&1, ",")
-      |> Enum.map(fn t-> String.to_integer(t) end)
-      |> List.to_tuple)
+    |> Enum.map(fn t ->
+      String.split(t, " -> ")
+      |> Enum.map(
+        &(String.split(&1, ",")
+          |> Enum.map(fn t -> String.to_integer(t) end)
+          |> List.to_tuple())
+      )
     end)
   end
 
@@ -29,16 +32,16 @@ defmodule AdventOfCode.Y2021.Day05 do
   end
 
   defp expand_vent_coords([{x1, y1}, {x2, y2}]) do
-      {dx, dy} = {delta({x1, x2}), delta({y1, y2})}
-      length = if x1 != x2, do: abs(x1 - x2), else: abs(y1 - y2)
-      Enum.map(0..length, &{x1 + &1 * dx, y1 + &1 * dy})
+    {dx, dy} = {delta({x1, x2}), delta({y1, y2})}
+    length = if x1 != x2, do: abs(x1 - x2), else: abs(y1 - y2)
+    Enum.map(0..length, &{x1 + &1 * dx, y1 + &1 * dy})
   end
 
   defp count_intersecting_coords(vent_coords) do
     vent_coords
-    |> List.flatten
-    |> Enum.frequencies
-    |> Map.to_list
+    |> List.flatten()
+    |> Enum.frequencies()
+    |> Map.to_list()
     |> Enum.count(fn {{_, _}, count} -> count > 1 end)
   end
 end

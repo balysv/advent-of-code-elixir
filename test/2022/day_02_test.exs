@@ -3,7 +3,6 @@ defmodule AdventOfCode.Y2022.Day02Test do
 
   import AdventOfCode.Y2022.Day02
 
-
   test "part1" do
     input = AdventOfCode.Input.get!(2, 2022)
     result = part1(input)

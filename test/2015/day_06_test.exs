@@ -8,7 +8,7 @@ defmodule AdventOfCode.Y2015.Day06Test do
     input = AdventOfCode.Input.get!(6, 2015)
     result = part1(input)
 
-    assert result == 377891
+    assert result == 377_891
   end
 
   @tag :skip
@@ -16,6 +16,6 @@ defmodule AdventOfCode.Y2015.Day06Test do
     input = AdventOfCode.Input.get!(6, 2015)
     result = part2(input)
 
-    assert result == 377891
+    assert result == 377_891
   end
 end

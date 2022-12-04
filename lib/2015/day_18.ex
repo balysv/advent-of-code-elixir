@@ -22,7 +22,7 @@ defmodule AdventOfCode.Y2015.Day18 do
   def part2(args) do
     grid = args |> prepare_input() |> fix_lights()
 
-    1..1000000
+    1..1_000_000
     |> Enum.reduce(grid, fn _, acc ->
       print(acc)
       step(acc, false)

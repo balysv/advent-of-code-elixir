@@ -13,18 +13,42 @@ defmodule AdventOfCode.Y2016.Day19 do
   def part2(args) do
     i = args |> prepare_input()
     # Extended sequence from simulation of '1's (thanks, Wolfram Alpha)
-    seq = [1, 2, 4, 10, 28, 82, 244, 730, 2188, 6562, 19684, 59050, 177148, 531442, 1594324, 4782970, 14348908, 43046722, 129140164]
+    seq = [
+      1,
+      2,
+      4,
+      10,
+      28,
+      82,
+      244,
+      730,
+      2188,
+      6562,
+      19684,
+      59050,
+      177_148,
+      531_442,
+      1_594_324,
+      4_782_970,
+      14_348_908,
+      43_046_722,
+      129_140_164
+    ]
 
     Enum.with_index(seq)
-    |> Enum.find(fn {n, idx} -> n > i end) # Find the closest smallest sequence number
+    # Find the closest smallest sequence number
+    |> Enum.find(fn {n, idx} -> n > i end)
     |> then(fn
       {_, idx} ->
         last_1 = Enum.at(seq, idx - 1)
-        ones = last_1 - 2 # that many increments by '1' until '2's start
-        inc_needed = i - last_1 # number of increments until our target elf count
-        twos = max((inc_needed - ones), 0) # that many increments by '2' needed
+        # that many increments by '1' until '2's start
+        ones = last_1 - 2
+        # number of increments until our target elf count
+        inc_needed = i - last_1
+        # that many increments by '2' needed
+        twos = max(inc_needed - ones, 0)
         1 + min(inc_needed, ones) + twos * 2
-     end)
+    end)
   end
 
   defp _simulate(elf_count) do

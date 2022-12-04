@@ -57,7 +57,7 @@ defmodule AdventOfCode.Y2015.Day06 do
             Map.update(acc, {x, y}, 1, &(&1 + 1))
 
           acc when action == :off ->
-            Map.update(acc, {x, y}, 0, &(max(&1 - 1, 0)))
+            Map.update(acc, {x, y}, 0, &max(&1 - 1, 0))
 
           acc when action == :toggle ->
             Map.update(acc, {x, y}, 2, &(&1 + 2))

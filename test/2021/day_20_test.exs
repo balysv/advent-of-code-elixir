@@ -14,7 +14,7 @@ defmodule AdventOfCode.Y2021.Day20Test do
     ..###
     """
 
-    input  = AdventOfCode.Input.get!(20, 2021)
+    input = AdventOfCode.Input.get!(20, 2021)
     result = part1(input)
 
     assert result == 5065
@@ -31,6 +31,7 @@ defmodule AdventOfCode.Y2021.Day20Test do
     ..#..
     ..###
     """
+
     # input  = AdventOfCode.Input.get!(20, 2021)
     result = part2(input)
 

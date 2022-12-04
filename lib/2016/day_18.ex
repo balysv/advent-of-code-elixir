@@ -1,7 +1,7 @@
 defmodule AdventOfCode.Y2016.Day18 do
   def part1(args), do: args |> String.trim() |> compute(40)
 
-  def part2(args), do: args |> String.trim() |> compute(400000)
+  def part2(args), do: args |> String.trim() |> compute(400_000)
 
   defp compute(input, count) do
     1..count

@@ -143,6 +143,7 @@ defmodule AdventOfCode.Y2021.Day19Test do
     -652,-548,-490
     30,-46,-14
     """
+
     # input  = AdventOfCode.Input.get!(19, 2021)
     result = part1(input)
 
@@ -151,7 +152,7 @@ defmodule AdventOfCode.Y2021.Day19Test do
 
   @tag timeout: :infinity
   test "part2" do
-     input = """
+    input = """
     --- scanner 0 ---
     404,-588,-901
     528,-643,409
@@ -289,6 +290,7 @@ defmodule AdventOfCode.Y2021.Day19Test do
     -652,-548,-490
     30,-46,-14
     """
+
     # input = AdventOfCode.Input.get!(19, 2021)
     result = part2(input)
 

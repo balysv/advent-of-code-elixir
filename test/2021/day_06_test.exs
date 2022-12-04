@@ -9,7 +9,7 @@ defmodule AdventOfCode.Y2021.Day06Test do
     input = AdventOfCode.Input.get!(6, 2021)
     result = part1(input)
 
-    assert result == 351188
+    assert result == 351_188
   end
 
   test "part2" do
@@ -18,6 +18,6 @@ defmodule AdventOfCode.Y2021.Day06Test do
     input = AdventOfCode.Input.get!(6, 2021)
     result = part2(input)
 
-    assert result == 1595779846729
+    assert result == 1_595_779_846_729
   end
 end

@@ -52,16 +52,17 @@ defmodule AdventOfCode.Y2015.Day21 do
 
     # manual
     # 10, 0 == 160; 9, 1 = 162; 8, 2 = 150; 7, 3 = 188; 6, 4 = 146;
-    r = for dmg <- 4..13,
-        arm <- 0..10,
-        you = {100, dmg, arm},
-        {state, _, _, _} = turn(boss, you, 0),
-        state == :loss do
-      {dmg, arm}
-    end
+    r =
+      for dmg <- 4..13,
+          arm <- 0..10,
+          you = {100, dmg, arm},
+          {state, _, _, _} = turn(boss, you, 0),
+          state == :loss do
+        {dmg, arm}
+      end
+
     Enum.sort(r, :desc)
   end
-
 
   defp turn(boss = {boss_hp, boss_dmg, boss_arm}, you = {hp, dmg, arm}, turn) do
     boss_hp = boss_hp - max(dmg - boss_arm, 1)

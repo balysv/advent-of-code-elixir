@@ -15,7 +15,8 @@ defmodule AdventOfCode.Y2021.Day25Test do
     v.v..>>v.v
     ....v..v.>
     """
-    input  = AdventOfCode.Input.get!(25, 2021)
+
+    input = AdventOfCode.Input.get!(25, 2021)
     result = part1(input)
 
     assert result == 58

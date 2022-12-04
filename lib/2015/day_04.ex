@@ -6,6 +6,7 @@ defmodule AdventOfCode.Y2015.Day04 do
 
   defp search(prefix, number, target) do
     r = :crypto.hash(:md5, prefix <> Integer.to_string(number)) |> Base.encode16()
+
     if String.starts_with?(r, target) do
       number
     else

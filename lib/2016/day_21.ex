@@ -146,5 +146,4 @@ defmodule AdventOfCode.Y2016.Day21 do
     |> Map.put(x, Map.get(map, y))
     |> Map.put(y, Map.get(map, x))
   end
-
 end

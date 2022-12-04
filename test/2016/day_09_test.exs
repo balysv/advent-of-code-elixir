@@ -14,6 +14,6 @@ defmodule AdventOfCode.Y2016.Day09Test do
     input = AdventOfCode.Input.get!(9, 2016)
     result = part2(input)
 
-    assert result == 10943094568
+    assert result == 10_943_094_568
   end
 end

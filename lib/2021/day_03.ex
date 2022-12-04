@@ -22,8 +22,10 @@ defmodule AdventOfCode.Y2021.Day03 do
   defp find_bytes_by(list, bit_function), do: do_find_bytes_by(list, 0, bit_function)
 
   defp do_find_bytes_by([value], _, _), do: value
+
   defp do_find_bytes_by(list, position, bit_function) do
-    bit = list
+    bit =
+      list
       |> Enum.map(fn i -> Enum.at(i, position) end)
       |> then(bit_function)
 

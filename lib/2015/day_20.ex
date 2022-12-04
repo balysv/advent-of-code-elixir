@@ -1,6 +1,5 @@
 defmodule AdventOfCode.Y2015.Day20 do
   defmodule Factors do
-
     def of(1), do: [1]
 
     def of(n) do
@@ -21,22 +20,28 @@ defmodule AdventOfCode.Y2015.Day20 do
 
   def part1(args) do
     target = div(args, 10)
-    700000..17000000
+
+    700_000..17_000_000
     |> Enum.find(fn house ->
-      presents = Factors.of(house)
-      |> Enum.sum()
+      presents =
+        Factors.of(house)
+        |> Enum.sum()
+
       presents >= target
     end)
   end
 
   def part2(args) do
     target = args
-    771120..target
+
+    771_120..target
     |> Enum.find(fn house ->
-        presents = Factors.of(house)
+      presents =
+        Factors.of(house)
         |> Enum.filter(fn factor -> factor * 50 >= house end)
         |> Enum.sum()
-        presents * 11 >= target
-      end)
+
+      presents * 11 >= target
+    end)
   end
 end

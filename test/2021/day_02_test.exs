@@ -10,6 +10,7 @@ defmodule AdventOfCode.Y2021.Day02Test do
     up 3
     down 8
     forward 2"
+
     # input = AdventOfCode.Input.get!(2, 2021)
 
     result = part1(input)
@@ -24,6 +25,7 @@ defmodule AdventOfCode.Y2021.Day02Test do
     up 3
     down 8
     forward 2"
+
     # input = AdventOfCode.Input.get!(2, 2021)
 
     result = part2(input)

@@ -18,7 +18,7 @@ defmodule AdventOfCode.Y2016.Day25 do
     instrs = args |> prepare_input()
 
     Stream.iterate(0, &(&1 + 1))
-    |> Enum.find(fn i -> recur(instrs, i) == 10101010 end)
+    |> Enum.find(fn i -> recur(instrs, i) == 10_101_010 end)
   end
 
   defp recur(instrs, a) do

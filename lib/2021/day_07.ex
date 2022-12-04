@@ -46,17 +46,19 @@ defmodule AdventOfCode.Y2021.Day07 do
     |> Enum.sum()
   end
 
-
   def big_boy_parallel(args) do
     input = prepare_input(args)
 
     alignment_pos = round(Statistics.mean(input))
 
     input
-    |> PelemayFp.map(fn pos ->
-      diff = abs(pos - alignment_pos)
-      div(diff * (diff + 1), 2)
-    end, div(length(input), 8))
+    |> PelemayFp.map(
+      fn pos ->
+        diff = abs(pos - alignment_pos)
+        div(diff * (diff + 1), 2)
+      end,
+      div(length(input), 8)
+    )
     |> Enum.sum()
   end
 
@@ -79,7 +81,7 @@ defmodule AdventOfCode.Y2021.Day07 do
       end)
     end)
     |> Enum.map(&Task.await/1)
-    |> List.flatten
+    |> List.flatten()
     |> Enum.sum()
   end
 end

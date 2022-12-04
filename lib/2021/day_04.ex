@@ -1,12 +1,15 @@
 defmodule AdventOfCode.Y2021.Day04 do
   defp prepare_input(raw_input) do
-    [numbers_list | boards_list] = raw_input
+    [numbers_list | boards_list] =
+      raw_input
       |> String.split("\n", trim: true)
 
-    drawn_numbers = numbers_list
+    drawn_numbers =
+      numbers_list
       |> String.split(",")
 
-    boards = boards_list
+    boards =
+      boards_list
       |> Enum.map(&String.split/1)
       |> Enum.chunk_every(5)
       |> Enum.map(&List.flatten/1)
@@ -24,11 +27,13 @@ defmodule AdventOfCode.Y2021.Day04 do
     end
 
     def is_winning(board) do
-      horizontal = board
+      horizontal =
+        board
         |> Enum.chunk_every(5)
         |> Enum.any?(&is_winning_line/1)
 
-      vertical = board
+      vertical =
+        board
         |> then(&chunk_by_transpose(&1, 5))
         |> Enum.any?(&is_winning_line/1)
 

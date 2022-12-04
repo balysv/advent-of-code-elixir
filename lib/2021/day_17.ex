@@ -26,8 +26,11 @@ defmodule AdventOfCode.Y2021.Day17 do
         do: {velocity, max_y}
   end
 
-  defp step({x, y}, _, max_y, {tx1, tx2, ty1, ty2}) when x in tx1..tx2 and y in ty1..ty2, do: {:hit, max_y}
+  defp step({x, y}, _, max_y, {tx1, tx2, ty1, ty2}) when x in tx1..tx2 and y in ty1..ty2,
+    do: {:hit, max_y}
+
   defp step({x, y}, _, _, {_, tx2, ty1, _}) when x > tx2 or y < ty1, do: {:miss, -1}
+
   defp step({x, y}, {vx, vy}, max_y, target) do
     x = x + vx
     y = y + vy

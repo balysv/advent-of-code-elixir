@@ -1,9 +1,11 @@
 defmodule AdventOfCode.Y2021.Day14 do
   defp prepare_input(raw_input) do
-    [template | raw_rules] = raw_input
+    [template | raw_rules] =
+      raw_input
       |> String.split(["\n", "\n\n"], trim: true)
 
-    rules = raw_rules
+    rules =
+      raw_rules
       |> Enum.map(fn s -> String.split(s, " -> ") |> Enum.map(&String.to_charlist/1) end)
       |> Enum.map(&List.to_tuple/1)
       |> Enum.into(%{})
@@ -14,7 +16,8 @@ defmodule AdventOfCode.Y2021.Day14 do
   def part1(args) do
     {template, rules} = prepare_input(args)
 
-    {{_, min}, {_, max}} = 1..10
+    {{_, min}, {_, max}} =
+      1..10
       |> Enum.reduce(template, fn _, acc -> brute_force_step(acc, rules) end)
       |> Enum.frequencies()
       |> Enum.min_max_by(&elem(&1, 1))
@@ -34,11 +37,14 @@ defmodule AdventOfCode.Y2021.Day14 do
 
   def part2(args) do
     {template, rules} = prepare_input(args)
-    pairs = template
+
+    pairs =
+      template
       |> Enum.chunk_every(2, 1, :discard)
       |> Enum.frequencies()
 
-    {{_, min}, {_, max}} = 1..40
+    {{_, min}, {_, max}} =
+      1..40
       |> Enum.reduce(pairs, fn _, acc -> step(acc, rules) end)
       |> count_letters()
       |> Enum.min_max_by(&elem(&1, 1))
@@ -48,11 +54,14 @@ defmodule AdventOfCode.Y2021.Day14 do
 
   def bigboy(args) do
     {template, rules} = prepare_input(args)
-    pairs = template
+
+    pairs =
+      template
       |> Enum.chunk_every(2, 1, :discard)
       |> Enum.frequencies()
 
-    {{_, min}, {_, max}} = 1..100000
+    {{_, min}, {_, max}} =
+      1..100_000
       |> Enum.reduce(pairs, fn
         c, acc ->
           if rem(c, 1000) == 0, do: IO.puts("#{c}")

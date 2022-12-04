@@ -19,6 +19,7 @@ defmodule AdventOfCode.Y2021.Day18 do
   defmodule Reducer do
     def reduce(tree) do
       {exploded?, _, tree, _} = explode(tree, 0)
+
       if exploded? do
         reduce(tree)
       else
@@ -28,11 +29,14 @@ defmodule AdventOfCode.Y2021.Day18 do
     end
 
     defguardp splitting?(e) when is_integer(e) and e >= 10
+
     defp split(e) when splitting?(e) do
       v = trunc(e / 2)
       {true, [v, e - v]}
     end
+
     defp split(e) when is_integer(e), do: {false, e}
+
     defp split([l, r]) do
       {split?, l} = split(l)
 
@@ -46,6 +50,7 @@ defmodule AdventOfCode.Y2021.Day18 do
 
     defguardp exploding?(l, r, depth) when is_integer(l) and is_integer(r) and depth >= 4
     defp explode([l, r], depth) when exploding?(l, r, depth), do: {true, l, 0, r}
+
     defp explode([l, r], depth) do
       {exploded?, lv, l, rv} = explode(l, depth + 1)
 
@@ -53,6 +58,7 @@ defmodule AdventOfCode.Y2021.Day18 do
         {exploded?, lv, [l, propogate(r, rv, :left)], 0}
       else
         {exploded?, lv, r, rv} = explode(r, depth + 1)
+
         if exploded? do
           {exploded?, 0, [propogate(l, lv, :right), r], rv}
         else
@@ -60,6 +66,7 @@ defmodule AdventOfCode.Y2021.Day18 do
         end
       end
     end
+
     defp explode(e, _), do: {false, 0, e, 0}
 
     defp propogate([l, r], v, :left), do: [propogate(l, v, :left), r]

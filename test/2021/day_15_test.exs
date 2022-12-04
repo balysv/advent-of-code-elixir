@@ -16,6 +16,7 @@ defmodule AdventOfCode.Y2021.Day15Test do
     1293138521
     2311944581
     """
+
     # input = AdventOfCode.Input.get!(15, 2021)
     result = part1(input)
 
@@ -35,6 +36,7 @@ defmodule AdventOfCode.Y2021.Day15Test do
     1293138521
     2311944581
     """
+
     # input = AdventOfCode.Input.get!(15, 2021)
     result = part2(input)
 

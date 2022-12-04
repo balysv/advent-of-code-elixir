@@ -14,6 +14,7 @@ defmodule AdventOfCode.Y2021.Day01Test do
     269
     260
     263"
+
     # input = AdventOfCode.Input.get!(1, 2021)
 
     result = part1(input)
