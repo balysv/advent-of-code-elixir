@@ -3,19 +3,19 @@ defmodule AdventOfCode.Y2022.Day15Test do
 
   import AdventOfCode.Y2022.Day15
 
-  @tag :skip
+  @tag timeout: :infinity
   test "part1" do
-    input = nil
+    input = AdventOfCode.Input.get!(15, 2022)
     result = part1(input)
 
-    assert result
+    assert result == 5_403_290
   end
 
-  @tag :skip
+  @tag timeout: :infinity
   test "part2" do
-    input = nil
+    input = AdventOfCode.Input.get!(15, 2022)
     result = part2(input)
 
-    assert result
+    assert result == 10_291_582_906_626
   end
 end
