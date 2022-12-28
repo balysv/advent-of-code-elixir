@@ -4,10 +4,10 @@ Based on [Advent of Code Starter Elixir](https://github.com/mhanberg/advent-of-c
 
 | year | progress|
 |------|---------|
-| 2022 | ongoing |
+| 2022 | 50/50   |
 | 2021 | 50/50   |
 | 2020 | 12/50   |
-| 2019 | 0/50    |
+| 2019 | 2/50    |
 | 2018 | 6/50    |
 | 2017 | 13/50   |
 | 2016 | 50/50   |
