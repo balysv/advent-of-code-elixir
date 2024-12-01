@@ -27,7 +27,7 @@ defmodule AdventOfCode.Y2016.Day04 do
         ?- -> ?\s
         c -> rem(c - 97 + sector_id, 26) + 97
       end)
-      |> List.starts_with?('north')
+      |> List.starts_with?(~c"north")
     end)
     |> elem(1)
   end

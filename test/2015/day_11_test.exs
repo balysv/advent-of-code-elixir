@@ -7,13 +7,13 @@ defmodule AdventOfCode.Y2015.Day11Test do
     input = "hepxcrrq"
     result = part1(input)
 
-    assert result == 'hepxxyzz'
+    assert result == ~c"hepxxyzz"
   end
 
   test "part2" do
     input = "hepxxyzz"
     result = part2(input)
 
-    assert result == 'heqaabcc'
+    assert result == ~c"heqaabcc"
   end
 end

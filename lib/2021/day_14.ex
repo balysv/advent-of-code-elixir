@@ -29,7 +29,7 @@ defmodule AdventOfCode.Y2021.Day14 do
     Stream.chunk_every(template, 2, 1, :discard)
     |> Enum.reduce([hd(template)], fn pair, acc ->
       [_, last] = pair
-      [middle] = Map.get(rules, pair, '')
+      [middle] = Map.get(rules, pair, ~c"")
       [last, middle | acc]
     end)
     |> Enum.reverse()
