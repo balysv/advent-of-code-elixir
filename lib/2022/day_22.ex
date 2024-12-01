@@ -248,7 +248,6 @@ defmodule AdventOfCode.Y2022.Day22 do
 
     cube_sides = to_cube(map)
 
-
     {{x, y}, facing} =
       Enum.reduce(instrs, {start_pos, "R"}, fn
         instr, {pos, facing} when is_integer(instr) ->

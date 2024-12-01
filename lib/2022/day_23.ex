@@ -116,11 +116,9 @@ defmodule AdventOfCode.Y2022.Day23 do
 
     elfs = Enum.filter(map, &has_elf?(&1))
 
-    {{min_x, _}, {max_x, _}} =
-      elfs |> Enum.map(&elem(&1, 0)) |> Enum.min_max_by(&elem(&1, 0))
+    {{min_x, _}, {max_x, _}} = elfs |> Enum.map(&elem(&1, 0)) |> Enum.min_max_by(&elem(&1, 0))
 
-    {{_, min_y}, {_, max_y}} =
-      elfs |> Enum.map(&elem(&1, 0)) |> Enum.min_max_by(&elem(&1, 1))
+    {{_, min_y}, {_, max_y}} = elfs |> Enum.map(&elem(&1, 0)) |> Enum.min_max_by(&elem(&1, 1))
 
     (max_x - min_x + 1) * (max_y - min_y + 1) - length(elfs)
   end
