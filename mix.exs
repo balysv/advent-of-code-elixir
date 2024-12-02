@@ -26,7 +26,8 @@ defmodule AdventOfCode.MixProject do
       {:pelemay_fp, "~> 0.1.2"},
       {:memoize, "~> 1.4"},
       {:jason, "~> 1.2"},
-      {:libgraph, git: "https://github.com/bitwalker/libgraph", branch: "main"}
+      {:libgraph, git: "https://github.com/bitwalker/libgraph", branch: "main"},
+      {:ssl_verify_fun, "~> 1.1.7", manager: :rebar3, override: true}
     ]
   end
 end
