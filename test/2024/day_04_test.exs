@@ -6,14 +6,14 @@ defmodule AdventOfCode.Y2024.Day04Test do
   test "part1" do
     input = AdventOfCode.Input.get!(4, 2024)
     result = part1(input)
-    # Update with actual result
-    assert result == nil
+    # 1 shot
+    assert result == 2462
   end
 
   test "part2" do
     input = AdventOfCode.Input.get!(4, 2024)
     result = part2(input)
-    # Update with actual result
-    assert result == nil
+    # 1 shot
+    assert result == 1877
   end
 end
