@@ -2,25 +2,429 @@ defmodule AdventOfCode.Y2024.Day12 do
   defp parse_input(args) do
     args
     |> String.split("\n", trim: true)
+    |> identify_regions()
   end
 
   @doc """
-  --- Day 12: Title Here ---
+  --- Day 12: Garden Groups ---
 
-  Part 1 description will go here.
+  Why not search for the Chief Historian near the gardener and his massive farm? There's plenty of food, so The Historians grab something to eat while they search.
+
+  You're about to settle near a complex arrangement of garden plots when some Elves ask if you can lend a hand. They'd like to set up fences around each region of garden plots, but they can't figure out how much fence they need to order or how much it will cost. They hand you a map (your puzzle input) of the garden plots.
+
+  Each garden plot grows only a single type of plant and is indicated by a single letter on your map. When multiple garden plots are growing the same type of plant and are touching (horizontally or vertically), they form a region. For example:
+
+  AAAA
+  BBCD
+  BBCC
+  EEEC
+
+  This 4x4 arrangement includes garden plots growing five different types of plants (labeled A, B, C, D, and E), each grouped into their own region.
+
+  In order to accurately calculate the cost of the fence around a single region, you need to know that region's area and perimeter.
+
+  The area of a region is simply the number of garden plots the region contains. The above map's type A, B, and C plants are each in a region of area 4. The type E plants are in a region of area 3; the type D plants are in a region of area 1.
+
+  Each garden plot is a square and so has four sides. The perimeter of a region is the number of sides of garden plots in the region that do not touch another garden plot in the same region. The type A and C plants are each in a region with perimeter 10. The type B and E plants are each in a region with perimeter 8. The lone D plot forms its own region with perimeter 4.
+
+  Visually indicating the sides of plots in each region that contribute to the perimeter using - and |, the above map's regions' perimeters are measured as follows:
+
+  +-+-+-+-+
+  |A A A A|
+  +-+-+-+-+     +-+
+              |D|
+  +-+-+   +-+   +-+
+  |B B|   |C|
+  +   +   + +-+
+  |B B|   |C C|
+  +-+-+   +-+ +
+          |C|
+  +-+-+-+   +-+
+  |E E E|
+  +-+-+-+
+
+  Plants of the same type can appear in multiple separate regions, and regions can even appear within other regions. For example:
+
+  OOOOO
+  OXOXO
+  OOOOO
+  OXOXO
+  OOOOO
+
+  The above map contains five regions, one containing all of the O garden plots, and the other four each containing a single X plot.
+
+  The four X regions each have area 1 and perimeter 4. The region containing 21 type O plants is more complicated; in addition to its outer edge contributing a perimeter of 20, its boundary with each X region contributes an additional 4 to its perimeter, for a total perimeter of 36.
+
+  Due to "modern" business practices, the price of fence required for a region is found by multiplying that region's area by its perimeter. The total price of fencing all regions on a map is found by adding together the price of fence for every region on the map.
+
+  In the first example, region A has price 4 * 10 = 40, region B has price 4 * 8 = 32, region C has price 4 * 10 = 40, region D has price 1 * 4 = 4, and region E has price 3 * 8 = 24. So, the total price for the first example is 140.
+
+  In the second example, the region with all of the O plants has price 21 * 36 = 756, and each of the four smaller X regions has price 1 * 4 = 4, for a total price of 772 (756 + 4 + 4 + 4 + 4).
+
+  Here's a larger example:
+
+  RRRRIICCFF
+  RRRRIICCCF
+  VVRRRCCFFF
+  VVRCCCJFFF
+  VVVVCJJCFE
+  VVIVCCJJEE
+  VVIIICJJEE
+  MIIIIIJJEE
+  MIIISIJEEE
+  MMMISSJEEE
+
+  It contains:
+
+    A region of R plants with price 12 * 18 = 216.
+    A region of I plants with price 4 * 8 = 32.
+    A region of C plants with price 14 * 28 = 392.
+    A region of F plants with price 10 * 18 = 180.
+    A region of V plants with price 13 * 20 = 260.
+    A region of J plants with price 11 * 20 = 220.
+    A region of C plants with price 1 * 4 = 4.
+    A region of E plants with price 13 * 18 = 234.
+    A region of I plants with price 14 * 22 = 308.
+    A region of M plants with price 5 * 12 = 60.
+    A region of S plants with price 3 * 8 = 24.
+
+  So, it has a total price of 1930.
+
+  What is the total price of fencing all regions on your map?
+
   """
   def part1(args) do
-    args
-    |> parse_input()
+    regions = parse_input(args)
+    calculate_total_price(regions)
+  end
+
+  defp identify_regions(map) do
+    # Convert string list to 2D char matrix
+    grid = Enum.map(map, &String.to_charlist/1)
+    rows = length(grid)
+    cols = length(hd(grid))
+
+    # Create visited set to track processed cells
+    visited = MapSet.new()
+
+    # Find all regions
+    {regions, _} =
+      for row <- 0..(rows - 1),
+          col <- 0..(cols - 1),
+          reduce: {[], visited} do
+        {regions, visited} ->
+          coord = {row, col}
+
+          if MapSet.member?(visited, coord) do
+            {regions, visited}
+          else
+            type = get_in(grid, [Access.at(row), Access.at(col)])
+            {cells, new_visited} = flood_fill(grid, coord, type, visited)
+
+            if cells == [] do
+              {regions, visited}
+            else
+              area = length(cells)
+
+              # IO.inspect("doing #{type} at #{row}, #{col}")
+
+              perimeter = calculate_perimeter(grid, cells)
+              edges = calculate_edges(grid, cells, type)
+
+              {[
+                 %{type: type, area: area, perimeter: perimeter, edges: edges, cells: cells}
+                 | regions
+               ], new_visited}
+            end
+          end
+      end
+
+    regions
+  end
+
+  defp flood_fill(grid, {row, col}, type, visited) do
+    cond do
+      # Out of bounds
+      row < 0 or row >= length(grid) or
+        col < 0 or col >= length(hd(grid)) ->
+        {[], visited}
+
+      # Already visited or different type
+      MapSet.member?(visited, {row, col}) or
+          get_in(grid, [Access.at(row), Access.at(col)]) != type ->
+        {[], visited}
+
+      true ->
+        visited = MapSet.put(visited, {row, col})
+
+        # Check all four directions
+        directions = [{-1, 0}, {1, 0}, {0, -1}, {0, 1}]
+
+        # Recursively flood fill in all directions
+        Enum.reduce(directions, {[{row, col}], visited}, fn {dx, dy}, {cells, vis} ->
+          {new_cells, new_vis} =
+            flood_fill(grid, {row + dx, col + dy}, type, vis)
+
+          {cells ++ new_cells, new_vis}
+        end)
+    end
+  end
+
+  defp calculate_perimeter(grid, cells) do
+    cells
+    |> Enum.reduce(0, fn {row, col}, acc ->
+      directions = [{-1, 0}, {1, 0}, {0, -1}, {0, 1}]
+      type = get_in(grid, [Access.at(row), Access.at(col)])
+
+      perimeter_edges =
+        Enum.count(directions, fn {dx, dy} ->
+          new_row = row + dx
+          new_col = col + dy
+
+          new_row < 0 or new_row >= length(grid) or
+            new_col < 0 or new_col >= length(hd(grid)) or
+            get_in(grid, [Access.at(new_row), Access.at(new_col)]) != type
+        end)
+
+      acc + perimeter_edges
+    end)
+  end
+
+  defp calculate_edges(_grid, cells, type) do
+    # scan coordinates horizontally and groups consecutive cells
+    # Group cells by row
+    cells_by_row = Enum.group_by(cells, fn {x, y} -> x end)
+
+    # """
+    # AAAAAA
+    # AAABBA
+    # AAABBA
+    # ABBAAA
+    # ABBAAA
+    # AAAAAA
+    # """
+
+    # For each row, find consecutive sequences
+    # Process rows
+    # Sort cells in row by column
+    # Group consecutive columns
+    # Process columns
+    rows =
+      cells_by_row
+      |> Enum.flat_map(fn {row, row_cells} ->
+        sorted_cells = Enum.sort_by(row_cells, fn {_x, y} -> y end)
+
+        sorted_cells
+        |> Enum.chunk_while(
+          [],
+          fn {x, y}, acc ->
+            case acc do
+              [] ->
+                {:cont, [{x, y}]}
+
+              [{_px, prev_y} | _] = chunk ->
+                if y == prev_y + 1 do
+                  {:cont, [{x, y} | chunk]}
+                else
+                  {:cont, chunk, [{x, y}]}
+                end
+            end
+          end,
+          fn
+            [] -> {:cont, []}
+            acc -> {:cont, acc, []}
+          end
+        )
+      end)
+      |> Enum.flat_map(fn edge ->
+        edge_1 =
+          Enum.reject(edge, fn {x, y} ->
+            {x - 1, y} in cells
+          end)
+
+        edge_2 =
+          Enum.reject(edge, fn {x, y} ->
+            {x + 1, y} in cells
+          end)
+
+        [edge_1, edge_2]
+      end)
+      |> Enum.reject(&(&1 == []))
+      |> Enum.flat_map(fn edge ->
+        edge
+        |> Enum.chunk_while(
+          [],
+          fn {x, y}, acc ->
+            case acc do
+              [] ->
+                {:cont, [{x, y}]}
+
+              [{_px, prev_y} | _] = chunk ->
+                if y == prev_y - 1 do
+                  {:cont, [{x, y} | chunk]}
+                else
+                  {:cont, chunk, [{x, y}]}
+                end
+            end
+          end,
+          fn
+            [] -> {:cont, []}
+            acc -> {:cont, acc, []}
+          end
+        )
+      end)
+
+    columns =
+      Enum.group_by(cells, fn {x, y} -> y end)
+      |> Enum.flat_map(fn {col, col_cells} ->
+        # Sort cells in column by row
+        sorted_cells = Enum.sort_by(col_cells, fn {x, _y} -> x end)
+
+        # Group consecutive rows
+        sorted_cells
+        |> Enum.chunk_while(
+          [],
+          fn {x, y}, acc ->
+            case acc do
+              [] ->
+                {:cont, [{x, y}]}
+
+              [{prev_x, _py} | _] = chunk ->
+                if x == prev_x + 1 do
+                  {:cont, [{x, y} | chunk]}
+                else
+                  {:cont, chunk, [{x, y}]}
+                end
+            end
+          end,
+          fn
+            [] -> {:cont, []}
+            acc -> {:cont, acc, []}
+          end
+        )
+      end)
+      |> Enum.flat_map(fn edge ->
+        edge_1 =
+          Enum.reject(edge, fn {x, y} ->
+            {x, y - 1} in cells
+          end)
+
+        edge_2 =
+          Enum.reject(edge, fn {x, y} ->
+            {x, y + 1} in cells
+          end)
+
+        [edge_1, edge_2]
+      end)
+      |> Enum.reject(&(&1 == []))
+      |> Enum.flat_map(fn edge ->
+        edge
+        |> Enum.chunk_while(
+          [],
+          fn {x, y}, acc ->
+            case acc do
+              [] ->
+                {:cont, [{x, y}]}
+
+              [{prev_x, _py} | _] = chunk ->
+                if x == prev_x - 1 do
+                  {:cont, [{x, y} | chunk]}
+                else
+                  {:cont, chunk, [{x, y}]}
+                end
+            end
+          end,
+          fn
+            [] -> {:cont, []}
+            acc -> {:cont, acc, []}
+          end
+        )
+      end)
+
+    edges = Enum.reject(columns ++ rows, &(&1 == []))
+
+    Enum.count(edges)
+  end
+
+  defp calculate_total_price(regions) do
+    regions
+    |> Enum.map(fn region ->
+      region.area * region.perimeter
+    end)
+    |> Enum.sum()
   end
 
   @doc """
   --- Part Two ---
 
-  Part 2 description will go here.
+  Fortunately, the Elves are trying to order so much fence that they qualify for a bulk discount!
+
+  Under the bulk discount, instead of using the perimeter to calculate the price, you need to use the number of sides each region has. Each straight section of fence counts as a side, regardless of how long it is.
+
+  Consider this example again:
+
+  AAAA
+  BBCD
+  BBCC
+  EEEC
+
+  The region containing type A plants has 4 sides, as does each of the regions containing plants of type B, D, and E. However, the more complex region containing the plants of type C has 8 sides!
+
+  Using the new method of calculating the per-region price by multiplying the region's area by its number of sides, regions A through E have prices 16, 16, 32, 4, and 12, respectively, for a total price of 80.
+
+  The second example above (full of type X and O plants) would have a total price of 436.
+
+  Here's a map that includes an E-shaped region full of type E plants:
+
+  EEEEE
+  EXXXX
+  EEEEE
+  EXXXX
+  EEEEE
+
+  The E-shaped region has an area of 17 and 12 sides for a price of 204. Including the two regions full of type X plants, this map has a total price of 236.
+
+  This map has a total price of 368:
+
+  AAAAAA
+  AAABBA
+  AAABBA
+  ABBAAA
+  ABBAAA
+  AAAAAA
+
+  It includes two regions full of type B plants (each with 4 sides) and a single region full of type A plants (with 4 sides on the outside and 8 more sides on the inside, a total of 12 sides). Be especially careful when counting the fence around regions like the one full of type A plants; in particular, each section of fence has an in-side and an out-side, so the fence does not connect across the middle of the region (where the two B regions touch diagonally). (The Elves would have used the Möbius Fencing Company instead, but their contract terms were too one-sided.)
+
+  The larger example from before now has the following updated prices:
+
+    A region of R plants with price 12 * 10 = 120.
+    A region of I plants with price 4 * 4 = 16.
+    A region of C plants with price 14 * 22 = 308.
+    A region of F plants with price 10 * 12 = 120.
+    A region of V plants with price 13 * 10 = 130.
+    A region of J plants with price 11 * 12 = 132.
+    A region of C plants with price 1 * 4 = 4.
+    A region of E plants with price 13 * 8 = 104.
+    A region of I plants with price 14 * 16 = 224.
+    A region of M plants with price 5 * 6 = 30.
+    A region of S plants with price 3 * 6 = 18.
+
+  Adding these together produces its new total price of 1206.
+
+  What is the new total price of fencing all regions on your map?
+
+
   """
-  def part2(args) do
-    args
-    |> parse_input()
+  def part2(input) do
+    regions = parse_input(input)
+    calculate_total_price_p2(regions)
+  end
+
+  defp calculate_total_price_p2(regions) do
+    regions
+    |> Enum.map(fn region ->
+      region.area * region.edges
+    end)
+    |> Enum.sum()
   end
 end
