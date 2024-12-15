@@ -6,14 +6,15 @@ defmodule AdventOfCode.Y2024.Day15Test do
   test "part1" do
     input = AdventOfCode.Input.get!(15, 2024)
     result = part1(input)
-    # Update with actual result
-    assert result == nil
+    # A few shots as some clarification of how the robot
+    # moved was needed
+    assert result == 1_437_174
   end
 
   test "part2" do
     input = AdventOfCode.Input.get!(15, 2024)
     result = part2(input)
-    # Update with actual result
-    assert result == nil
+    # Did not manage to complete without large interventions
+    assert result == 1_437_468
   end
 end

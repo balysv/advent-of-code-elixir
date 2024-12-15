@@ -190,7 +190,7 @@ defmodule AdventOfCode.Y2024.Day12 do
     end)
   end
 
-  defp calculate_edges(_grid, cells, type) do
+  defp calculate_edges(_grid, cells, _type) do
     # scan coordinates horizontally and groups consecutive cells
     # Group cells by row
     cells_by_row = Enum.group_by(cells, fn {x, y} -> x end)
@@ -211,7 +211,7 @@ defmodule AdventOfCode.Y2024.Day12 do
     # Process columns
     rows =
       cells_by_row
-      |> Enum.flat_map(fn {row, row_cells} ->
+      |> Enum.flat_map(fn {_row, row_cells} ->
         sorted_cells = Enum.sort_by(row_cells, fn {_x, y} -> y end)
 
         sorted_cells
@@ -276,7 +276,7 @@ defmodule AdventOfCode.Y2024.Day12 do
 
     columns =
       Enum.group_by(cells, fn {x, y} -> y end)
-      |> Enum.flat_map(fn {col, col_cells} ->
+      |> Enum.flat_map(fn {_col, col_cells} ->
         # Sort cells in column by row
         sorted_cells = Enum.sort_by(col_cells, fn {x, _y} -> x end)
 
